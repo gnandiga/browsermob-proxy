@@ -369,11 +369,11 @@ public class BrowserMobHttpClient {
 	{
 		Pattern hexDecimalPattern =  Pattern.compile("%(%[A-Fa-f0-9]{1,2})");
 		Matcher hexDecimalMatcher = hexDecimalPattern.matcher(url);
-		url = hexDecimalMatcher.replaceAll("%26$1");
+		url = hexDecimalMatcher.replaceAll("%25$1");
 
 		Pattern hexDecimalPattern2 =  Pattern.compile("(%[A-Fa-f0-9]{1,2})%");
 		Matcher hexDecimalMatcher2 = hexDecimalPattern2.matcher(url);
-		url = hexDecimalMatcher2.replaceAll("$1%26");
+		url = hexDecimalMatcher2.replaceAll("$1%25");
 		return url;
 	}
 

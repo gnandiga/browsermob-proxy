@@ -316,9 +316,11 @@ public class BrowserMobHttpClient {
         }
     }
 
-    private URI makeUri(String url) throws URISyntaxException {
+    protected URI makeUri(String url) throws URISyntaxException {
         // MOB-120: check for | character and change to correctly escaped %7C
-        url = url.replace(" ", "%20");
+		url = changePercentEscapeCharacter(url);
+
+		url = url.replace(" ", "%20");
         url = url.replace(">", "%3C");
         url = url.replace("<", "%3E");
         url = url.replace("#", "%23");
@@ -363,7 +365,19 @@ public class BrowserMobHttpClient {
         return uri;
     }
 
-    private RuntimeException reportBadURI(String url, String method) {
+	private String changePercentEscapeCharacter(String url)
+	{
+		Pattern hexDecimalPattern =  Pattern.compile("%(%[A-Fa-f0-9]{1,2})");
+		Matcher hexDecimalMatcher = hexDecimalPattern.matcher(url);
+		url = hexDecimalMatcher.replaceAll("%26$1");
+
+		Pattern hexDecimalPattern2 =  Pattern.compile("(%[A-Fa-f0-9]{1,2})%");
+		Matcher hexDecimalMatcher2 = hexDecimalPattern2.matcher(url);
+		url = hexDecimalMatcher2.replaceAll("$1%26");
+		return url;
+	}
+
+	private RuntimeException reportBadURI(String url, String method) {
         if (this.har != null && harPageRef != null) {
             HarEntry entry = new HarEntry(harPageRef);
             entry.setTime(0);

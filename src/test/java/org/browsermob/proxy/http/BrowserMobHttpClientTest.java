@@ -1,12 +1,17 @@
 package org.browsermob.proxy.http;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.jetty.util.MultiMap;
 import org.eclipse.jetty.util.UrlEncoded;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.util.List;
 
 public class BrowserMobHttpClientTest
 {
@@ -28,4 +33,5 @@ public class BrowserMobHttpClientTest
 			Assert.fail("Exception was not supposed to happen here: " + e.getMessage());
 		}
 	}
+
 }

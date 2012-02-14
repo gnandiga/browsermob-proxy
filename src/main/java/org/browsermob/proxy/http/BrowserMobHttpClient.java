@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.HashMap;
@@ -525,11 +526,12 @@ public class BrowserMobHttpClient {
         if (this.har != null && harPageRef != null) {
             har.getLog().addEntry(entry);
         }
-        
-    	String query = method.getURI().getRawQuery();
-    	if (query != null) {
-	        MultiMap<String> params = new MultiMap<String>();
-	        UrlEncoded.decodeTo(query, params, "UTF-8");
+
+		String query = method.getURI().getQuery();
+
+		if (query != null) {
+			MultiMap<String> params = new MultiMap<String>();
+			UrlEncoded.decodeTo(query, params, "UTF-8");
 	        for (String k : params.keySet()) {
 	        	for (Object v : params.getValues(k)) {
 	        		entry.getRequest().getQueryString().add(new HarNameValuePair(k, (String) v));
